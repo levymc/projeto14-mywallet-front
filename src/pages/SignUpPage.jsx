@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import MyWalletLogo from "../components/MyWalletLogo";
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -22,12 +23,20 @@ export default function SignUpPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:5000/cadastro", formData).then((response) => {
+    if (formData.senha === formData.confirmarSenha) {
+      axios.post("http://localhost:5000/cadastro", formData).then((response) => {
             console.log(response.data); 
+            Swal.fire({
+              title:"Usuário cadastrado com sucesso!",
+              icon: "success"
+            })
         }).catch((error) => {
             alert(error.response.data);
             console.error("Erro ao cadastrar:", error.response.data);
         });
+    }else{
+      alert("A senha confirmada não é igual.")
+    }
   };
 
   return (
