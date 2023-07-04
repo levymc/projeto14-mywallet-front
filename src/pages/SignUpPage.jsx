@@ -15,21 +15,19 @@ export default function SignUpPage() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value
+        ...prevFormData,
+        [name]: value
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:5000/cadastro", formData)
-      .then((response) => {
-        console.log(response.data); // Exibir a resposta do backend (opcional)
-        // Faça o redirecionamento ou execute outras ações necessárias após o cadastro
-      })
-      .catch((error) => {
-        console.error("Erro ao cadastrar:", error);
-      });
+    axios.post("http://localhost:5000/cadastro", formData).then((response) => {
+            console.log(response.data); 
+        }).catch((error) => {
+            alert(error.response.data);
+            console.error("Erro ao cadastrar:", error.response.data);
+        });
   };
 
   return (
@@ -45,7 +43,7 @@ export default function SignUpPage() {
         />
         <input
           placeholder="E-mail"
-          type="email"
+          type="text"
           name="email"
           value={formData.email}
           onChange={handleInputChange}
