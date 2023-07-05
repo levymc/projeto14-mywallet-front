@@ -4,6 +4,10 @@ import HomePage from "./pages/HomePage"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import TransactionsPage from "./pages/TransactionPage"
+import dotenv from 'dotenv';
+
+dotenv.config()
+
 
 export default function App() {
   return (

@@ -17,16 +17,16 @@ export default function SignUpPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (formData.senha === formData.confirmarSenha) {
-        axios.post("http://localhost:5000/cadastro", formData).then((response) => {
-                console.log(response.data); 
-                Swal.fire({
-                title:"Usuário cadastrado com sucesso!",
-                icon: "success"
-                })
-            }).catch((error) => {
-                alert(error.response.data);
-                console.error("Erro ao cadastrar:", error.response.data);
-            });
+            axios.post("https://mywallet-back-xh5z.onrender.com/cadastro", formData).then((response) => {
+                    console.log(response.data); 
+                    Swal.fire({
+                    title:"Usuário cadastrado com sucesso!",
+                    icon: "success"
+                    })
+                }).catch((error) => {
+                    alert(error.response.data);
+                    console.error("Erro ao cadastrar:", error.response.data);
+                });
         }else{
         alert("A senha confirmada não é igual.")
         }
