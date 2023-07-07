@@ -17,7 +17,7 @@ export default function SignUpPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (formData.senha === formData.confirmarSenha) {
-            axios.post("https://mywallet-back-xh5z.onrender.com/cadastro", formData).then((response) => {
+            axios.post(import.meta.env.VITE_API_URL_DEV + "/cadastro", formData).then((response) => {
                     console.log(response.data); 
                     Swal.fire({
                     title:"Usuário cadastrado com sucesso!",

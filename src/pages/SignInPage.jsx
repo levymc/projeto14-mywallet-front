@@ -13,11 +13,12 @@ export default function SignInPage() {
 
 
     const handleRequest = async (event) => {
+        console.log(import.meta.env.VITE_API_URL)
         event.preventDefault(); 
         const email = event.target.elements.email.value;
         const senha = event.target.elements.senha.value;
         try {
-        const response = await axios.post("https://mywallet-back-xh5z.onrender.com/login", {
+        const response = await axios.post(import.meta.env.VITE_API_URL_DEV + "/login", {
             email: email,
             senha: senha,
         });
