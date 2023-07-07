@@ -32,15 +32,22 @@ export default function SignInPage() {
     <SingInContainer>
         <form onSubmit={handleRequest}>
             <MyWalletLogo />
-            <input placeholder="E-mail" type="email" name="email" onChange={e => handleInputChange(e, setFormData)}/>
-            <input
-            placeholder="Senha"
-            type="password"
-            name="senha"
-            autoComplete="new-password"
-            onChange={e => handleInputChange(e, setFormData)}
+            <input 
+                placeholder="E-mail" 
+                data-test="email" 
+                type="email" 
+                name="email" 
+                onChange={e => handleInputChange(e, setFormData)}
             />
-            <button type="submit">Entrar</button>
+            <input
+                placeholder="Senha"
+                type="password"
+                name="senha"
+                autoComplete="new-password"
+                data-test="password"
+                onChange={e => handleInputChange(e, setFormData)}
+            />
+            <button data-test="sign-in-submit" type="submit">Entrar</button>
         </form>
 
         <Link to="/cadastro">Primeira vez? Cadastre-se!</Link>
