@@ -2,11 +2,7 @@ import styled from "styled-components"
 import { useLocation, useParams } from "react-router-dom";
 
 export default function TransactionsPage() {
-  console.log(1)
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
   const { tipo } = useParams();
-  console.log(tipo)
 
   return (
     <TransactionsContainer>
