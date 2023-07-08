@@ -22,8 +22,8 @@ export default function SignUpPage() {
             axios.post(import.meta.env.VITE_API_URL_DEV + "/cadastro", formData).then((response) => {
                     console.log(response.data); 
                     Swal.fire({
-                    title:"Usuário cadastrado com sucesso!",
-                    icon: "success"
+                        title:"Usuário cadastrado com sucesso!",
+                        icon: "success"
                     }).then(() => navigateTo('/'))
                 }).catch((error) => {
                     alert(error.response.data);

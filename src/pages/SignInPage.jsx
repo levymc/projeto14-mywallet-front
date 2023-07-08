@@ -26,9 +26,9 @@ export default function SignInPage() {
             email: email,
             senha: senha,
         }).then(() => navigateTo('/home'))
-        console.log(response.data);
         } catch (error) {
-        console.error(error.response.data);
+            alert(error.response.data)
+            console.error(error.response.data);
         }
   };
 
