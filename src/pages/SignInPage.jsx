@@ -42,6 +42,7 @@ export default function SignInPage() {
                 type="email" 
                 name="email" 
                 onChange={e => handleInputChange(e, setFormData)}
+                required
             />
             <input
                 placeholder="Senha"
@@ -50,6 +51,7 @@ export default function SignInPage() {
                 autoComplete="new-password"
                 data-test="password"
                 onChange={e => handleInputChange(e, setFormData)}
+                required
             />
             <button data-test="sign-in-submit" type="submit">Entrar</button>
         </form>

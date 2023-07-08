@@ -48,6 +48,7 @@ export default function SignUpPage() {
                 name="nome"
                 value={formData.nome}
                 onChange={e => handleInputChange(e, setFormData)}
+                required
             />
             <input
                 placeholder="E-mail"
@@ -56,6 +57,7 @@ export default function SignUpPage() {
                 name="email"
                 value={formData.email}
                 onChange={e => handleInputChange(e, setFormData)}
+                required
             />
             <input
                 placeholder="Senha"
@@ -65,6 +67,7 @@ export default function SignUpPage() {
                 name="senha"
                 value={formData.senha}
                 onChange={e => handleInputChange(e, setFormData)}
+                required
             />
             <input
                 placeholder="Confirme a senha"
@@ -74,6 +77,7 @@ export default function SignUpPage() {
                 name="confirmarSenha"
                 value={formData.confirmarSenha}
                 onChange={e => handleInputChange(e, setFormData)}
+                required
             />
             <button data-test="sign-up-submit" type="submit">Cadastrar</button>
         </form>
