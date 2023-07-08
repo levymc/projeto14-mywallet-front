@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MyWalletLogo from "../components/MyWalletLogo";
 import axios from "axios";
@@ -7,6 +7,8 @@ import Swal from 'sweetalert2'
 import handleInputChange from "../components/handleInputChange";
 
 export default function SignUpPage() {
+    const navigateTo = useNavigate()
+
     const [formData, setFormData] = useState({
         nome: "",
         email: "",
@@ -22,7 +24,7 @@ export default function SignUpPage() {
                     Swal.fire({
                     title:"Usuário cadastrado com sucesso!",
                     icon: "success"
-                    })
+                    }).then(() => navigateTo('/'))
                 }).catch((error) => {
                     alert(error.response.data);
                     console.error("Erro ao cadastrar:", error.response.data);
