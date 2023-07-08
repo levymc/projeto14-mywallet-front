@@ -1,9 +1,16 @@
 import styled from "styled-components"
+import { useLocation, useParams } from "react-router-dom";
 
 export default function TransactionsPage() {
+  console.log(1)
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const { tipo } = useParams();
+  console.log(tipo)
+
   return (
     <TransactionsContainer>
-      <h1>Nova TRANSAÇÃO</h1>
+      <h1>Nova {tipo}</h1>
       <form>
         <input placeholder="Valor" type="text"/>
         <input placeholder="Descrição" type="text" />
