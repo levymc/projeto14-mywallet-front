@@ -94,7 +94,7 @@ const ButtonsContainer = styled.section`
   display: flex;
   gap: 15px;
   
-  button {
+  Link button {
     width: 50%;
     height: 115px;
     font-size: 22px;

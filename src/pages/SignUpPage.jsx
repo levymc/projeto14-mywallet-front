@@ -17,11 +17,11 @@ export default function SignUpPage() {
     });
 
     const handleSubmit = async (e) => {
-        
+
         e.preventDefault();
         if (formData.senha === formData.confirmarSenha) {
             try{
-                await axios.post(import.meta.env.VITE_API_URL_DEV + "/cadastro", formData).then((response) => {
+                await axios.post(import.meta.env.VITE_API_URL + "/cadastro", formData).then((response) => {
                     console.log(response.data); 
                     Swal.fire({
                         title:"Usuário cadastrado com sucesso!",
