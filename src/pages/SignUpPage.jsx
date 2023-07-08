@@ -21,8 +21,7 @@ export default function SignUpPage() {
         e.preventDefault();
         if (formData.senha === formData.confirmarSenha) {
             try{
-                await axios.post(import.meta.env.VITE_API_URL + "/cadastro", formData).then((response) => {
-                    console.log(response.data); 
+                await axios.post(import.meta.env.VITE_API_URL_DEV + "/cadastro", formData).then((response) => {
                     Swal.fire({
                         title:"Usuário cadastrado com sucesso!",
                         icon: "success"
