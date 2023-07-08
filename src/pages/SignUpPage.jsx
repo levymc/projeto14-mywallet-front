@@ -16,19 +16,23 @@ export default function SignUpPage() {
         confirmarSenha: ""
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        
         e.preventDefault();
         if (formData.senha === formData.confirmarSenha) {
-            axios.post(import.meta.env.VITE_API_URL_DEV + "/cadastro", formData).then((response) => {
+            try{
+                await axios.post(import.meta.env.VITE_API_URL_DEV + "/cadastro", formData).then((response) => {
                     console.log(response.data); 
                     Swal.fire({
                         title:"Usuário cadastrado com sucesso!",
                         icon: "success"
                     }).then(() => navigateTo('/'))
-                }).catch((error) => {
-                    alert(error.response.data);
-                    console.error("Erro ao cadastrar:", error.response.data);
-                });
+                })
+            }catch(error){
+                alert(error.response.data);
+                console.error("Erro ao cadastrar:", error.response.data);
+            };
+            
         }else{
         alert("A senha confirmada não é igual.")
         }

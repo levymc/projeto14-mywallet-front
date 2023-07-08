@@ -22,9 +22,9 @@ export default function SignInPage() {
         const senha = event.target.elements.senha.value;
         console.log(email, senha)
         try {
-        const response = await axios.post(import.meta.env.VITE_API_URL_DEV + "/login", {
-            email: email,
-            senha: senha,
+            await axios.post(import.meta.env.VITE_API_URL_DEV + "/login", {
+                email: email,
+                senha: senha,
         }).then(() => navigateTo('/home'))
         } catch (error) {
             alert(error.response.data)
