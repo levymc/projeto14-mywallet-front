@@ -39,36 +39,40 @@ export default function SignUpPage() {
         <form onSubmit={handleSubmit}>
             <MyWalletLogo />
             <input
-            placeholder="Nome"
-            type="text"
-            name="nome"
-            value={formData.nome}
-            onChange={e => handleInputChange(e, setFormData)}
+                placeholder="Nome"
+                data-test="name"
+                type="text"
+                name="nome"
+                value={formData.nome}
+                onChange={e => handleInputChange(e, setFormData)}
             />
             <input
-            placeholder="E-mail"
-            type="text"
-            name="email"
-            value={formData.email}
-            onChange={e => handleInputChange(e, setFormData)}
+                placeholder="E-mail"
+                data-test="email"
+                type="text"
+                name="email"
+                value={formData.email}
+                onChange={e => handleInputChange(e, setFormData)}
             />
             <input
-            placeholder="Senha"
-            type="password"
-            autoComplete="new-password"
-            name="senha"
-            value={formData.senha}
-            onChange={e => handleInputChange(e, setFormData)}
+                placeholder="Senha"
+                data-test="password"
+                type="password"
+                autoComplete="new-password"
+                name="senha"
+                value={formData.senha}
+                onChange={e => handleInputChange(e, setFormData)}
             />
             <input
-            placeholder="Confirme a senha"
-            type="password"
-            autoComplete="new-password"
-            name="confirmarSenha"
-            value={formData.confirmarSenha}
-            onChange={e => handleInputChange(e, setFormData)}
+                placeholder="Confirme a senha"
+                data-test="conf-password"
+                type="password"
+                autoComplete="new-password"
+                name="confirmarSenha"
+                value={formData.confirmarSenha}
+                onChange={e => handleInputChange(e, setFormData)}
             />
-            <button type="submit">Cadastrar</button>
+            <button data-test="sign-up-submit" type="submit">Cadastrar</button>
         </form>
 
         <Link to="/">Já tem uma conta? Entre agora!</Link>

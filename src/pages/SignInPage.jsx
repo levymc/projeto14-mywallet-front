@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import MyWalletLogo from "../components/MyWalletLogo";
 import axios from "axios";
 import { useState } from "react";
@@ -8,6 +8,8 @@ import handleInputChange from "../components/handleInputChange";
 
 
 export default function SignInPage() {
+    const navigateTo = useNavigate()
+
     const [formData, setFormData] = useState({
         email: "",
         senha: "",
@@ -15,18 +17,18 @@ export default function SignInPage() {
 
 
     const handleRequest = async (event) => {
-        console.log(import.meta.env.VITE_API_URL)
         event.preventDefault(); 
         const email = event.target.elements.email.value;
         const senha = event.target.elements.senha.value;
+        console.log(email, senha)
         try {
         const response = await axios.post(import.meta.env.VITE_API_URL_DEV + "/login", {
             email: email,
             senha: senha,
-        });
+        }).then(() => navigateTo('/home'))
         console.log(response.data);
         } catch (error) {
-        console.error(error);
+        console.error(error.response.data);
         }
   };
 
