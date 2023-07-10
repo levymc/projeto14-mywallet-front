@@ -19,7 +19,7 @@ export default function HomePage() {
                     },
                 };
         
-                const response = await axios.get(import.meta.env.VITE_API_URL + "/transactions", config);
+                const response = await axios.get(import.meta.env.VITE_API_URL_DEV + "/transactions", config);
                 const transactionsData = response.data;
                 setTransactions(transactionsData);
             } catch (error) {
