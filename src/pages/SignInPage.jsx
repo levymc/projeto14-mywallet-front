@@ -19,12 +19,12 @@ export default function SignInPage() {
         const senha = event.target.elements.senha.value;
         console.log(email, senha);
         try {
-        await axios.post(import.meta.env.VITE_API_URL + "/login", {
+        await axios.post(import.meta.env.VITE_API_URL_DEV + "/login", {
             email: email,
             senha: senha,
             })
             .then((res) => {
-            localStorage.setItem('userData', JSON.stringify(res.data));
+                localStorage.setItem('userData', JSON.stringify(res.data));
             navigateTo('/home');
             });
         } catch (error) {
@@ -38,24 +38,24 @@ export default function SignInPage() {
       <form onSubmit={handleRequest}>
         <MyWalletLogo />
         <input
-          placeholder="E-mail"
-          data-test="email"
-          type="email"
-          name="email"
-          onChange={(e) => handleInputChange(e, setFormData)}
-          required
+            placeholder="E-mail"
+            data-test="email"
+            type="email"
+            name="email"
+            onChange={(e) => handleInputChange(e, setFormData)}
+            required
         />
         <input
-          placeholder="Senha"
-          type="password"
-          name="senha"
-          autoComplete="new-password"
-          data-test="password"
-          onChange={(e) => handleInputChange(e, setFormData)}
-          required
+            placeholder="Senha"
+            type="password"
+            name="senha"
+            autoComplete="new-password"
+            data-test="password"
+            onChange={(e) => handleInputChange(e, setFormData)}
+            required
         />
         <button data-test="sign-in-submit" type="submit">
-          Entrar
+            Entrar
         </button>
       </form>
 
@@ -65,9 +65,9 @@ export default function SignInPage() {
 }
 
 const SingInContainer = styled.section`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;

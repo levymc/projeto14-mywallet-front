@@ -25,10 +25,11 @@ export default function TransactionsPage() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const url = tipo === "entrada" ? import.meta.env.VITE_API_URL + "/entrada" : import.meta.env.VITE_API_URL + "/saida";
+        const url = import.meta.env.VITE_API_URL_DEV + "/transactions"
         const token = {
             headers: {
                 Authorization: `Bearer ${userData.token}`,
+                id: userData.userId
             },
         };
       

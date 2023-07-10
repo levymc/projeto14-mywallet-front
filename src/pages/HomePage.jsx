@@ -1,61 +1,86 @@
-import styled from "styled-components"
-import { BiExit } from "react-icons/bi"
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { BiExit } from "react-icons/bi";
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function HomePage() {
-  console.log(localStorage.getItem('userData'));
-  return (
-    <HomeContainer>
-      <Header>
-        <h1 data-test="user-name">Olá, Fulano</h1>
-        <BiExit data-test="logout"/>
-      </Header>
+    const [transactions, setTransactions] = useState([]);
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    console.log(userData)
+    useEffect(() => {
+        const getTransactions = async () => {
+            try {
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${userData.token}`,
+                        id: userData.userId
+                    },
+                };
+        
+                const response = await axios.get("http://localhost:5000/transactions", config);
+                const transactionsData = response.data;
+                setTransactions(transactionsData);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+      
+        getTransactions();
+      }, []);
+      
+    return (
+        <HomeContainer>
+        <Header>
+            <h1 data-test="user-name">Olá, {userData.nome}</h1>
+            <BiExit data-test="logout" />
+        </Header>
 
-      <TransactionsContainer>
-        <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong data-test="registry-name">Almoço mãe</strong>
-            </div>
-            <Value data-test="registry-amount" color={"negativo"}>120,00</Value>
-          </ListItemContainer>
+        <TransactionsContainer>
+            <ul>
+            {transactions.map((transaction) => (
+                <ListItemContainer key={transaction._id}>
+                <div>
+                    <span>{transaction.valor}</span>
+                    <strong data-test="registry-name">{transaction.descricao}</strong>
+                </div>
+                <Value
+                    data-test="registry-amount"
+                    color={transaction.type === "saida" ? "negativo" : "positivo"}
+                >
+                    {transaction.valor}
+                </Value>
+                </ListItemContainer>
+            ))}
+            </ul>
 
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong data-test="registry-name">Salário</strong>
-            </div>
-            <Value data-test="registry-amount" color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
-        </ul>
+            <article>
+            <strong>Saldo</strong>
+            <Value data-test="total-amount" color={"positivo"}>
+                2880,00
+            </Value>
+            </article>
+        </TransactionsContainer>
 
-        <article>
-          <strong>Saldo</strong>
-          <Value data-test="total-amount" color={"positivo"}>2880,00</Value>
-        </article>
-      </TransactionsContainer>
-
-
-      <ButtonsContainer>
-        <Link to='/nova-transacao/entrada'>
-          <button data-test="new-income">
-            <AiOutlinePlusCircle />
-            <p>Nova <br /> entrada</p>
-          </button>
-        </Link>
-        <Link to='/nova-transacao/saida'>
-          <button data-test="new-expense">
-            <AiOutlineMinusCircle />
-            <p>Nova <br /> saída</p>
-          </button>
-        </Link>
-      </ButtonsContainer>
-
-    </HomeContainer>
-  )
+        <ButtonsContainer>
+            <Link to="/nova-transacao/entrada">
+            <button data-test="new-income">
+                <AiOutlinePlusCircle />
+                <p>Nova <br /> entrada</p>
+            </button>
+            </Link>
+            <Link to="/nova-transacao/saida">
+            <button data-test="new-expense">
+                <AiOutlineMinusCircle />
+                <p>Nova <br /> saída</p>
+            </button>
+            </Link>
+        </ButtonsContainer>
+        </HomeContainer>
+    );
 }
+
 
 const HomeContainer = styled.div`
   display: flex;
