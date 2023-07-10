@@ -35,8 +35,8 @@ export default function TransactionsPage() {
       
         axios.post(url, formData, token).then((response) => {
                 console.log(response.data);
-            })
-            .catch((error) => {
+                navigateTo('/home')
+            }).catch((error) => {
                 alert(error.response.data);
                 console.error(error.response.data);
             });
