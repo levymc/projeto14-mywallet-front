@@ -19,7 +19,7 @@ export default function HomePage() {
                     },
                 };
         
-                const response = await axios.get("http://localhost:5000/transactions", config);
+                const response = await axios.get(import.meta.env.VITE_API_URL + "/transactions", config);
                 const transactionsData = response.data;
                 setTransactions(transactionsData);
             } catch (error) {
@@ -42,7 +42,7 @@ export default function HomePage() {
             {transactions.map((transaction) => (
                 <ListItemContainer key={transaction._id}>
                 <div>
-                    <span>{transaction.valor}</span>
+                    <span>Eu {transaction.valor}</span>
                     <strong data-test="registry-name">{transaction.descricao}</strong>
                 </div>
                 <Value
