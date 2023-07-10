@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
 export default function TransactionsPage() {
     const { tipo } = useParams();
     const navigateTo = useNavigate();
@@ -20,19 +21,17 @@ export default function TransactionsPage() {
         ...prevState,
         [name]: value
         }));
-    };
+    }
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         const formattedValue = parseFloat(formData.valor).toFixed(2);
-
         const formattedData = {
-        ...formData,
-        valor: formattedValue
+            ...formData,
+            valor: formattedValue
         };
-
-        const url = import.meta.env.VITE_API_URL + "/transactions";
+        const url = import.meta.env.VITE_API_URL_DEV + "/transactions";
         const token = {
         headers: {
             Authorization: `Bearer ${userData.token}`,
@@ -55,21 +54,21 @@ export default function TransactionsPage() {
         <h1>Nova {tipo}</h1>
         <form onSubmit={handleSubmit}>
             <input
-            data-test="registry-amount-input"
-            placeholder="Valor"
-            type="number"
-            name="valor"
-            value={formData.valor}
-            onChange={handleChange}
-            step="0.01"
+                data-test="registry-amount-input"
+                placeholder="Valor"
+                type="number"
+                name="valor"
+                step="0.01"
+                value={formData.valor}
+                onChange={handleChange}
             />
             <input
-            data-test="registry-name-input"
-            placeholder="Descrição"
-            type="text"
-            name="descricao"
-            value={formData.descricao}
-            onChange={handleChange}
+                data-test="registry-name-input"
+                placeholder="Descrição"
+                type="text"
+                name="descricao"
+                value={formData.descricao}
+                onChange={handleChange}
             />
             <button data-test="registry-save" type="submit">
             Salvar TRANSAÇÃO
