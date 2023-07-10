@@ -25,7 +25,7 @@ export default function TransactionsPage() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const url = import.meta.env.VITE_API_URL_DEV + "/transactions"
+        const url = import.meta.env.VITE_API_URL + "/transactions"
         const token = {
             headers: {
                 Authorization: `Bearer ${userData.token}`,
