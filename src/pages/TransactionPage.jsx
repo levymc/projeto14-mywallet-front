@@ -1,8 +1,17 @@
 import styled from "styled-components"
 import { useLocation, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function TransactionsPage() {
   const { tipo } = useParams();
+
+  const navigateTo = useNavigate();
+
+    const [formData, setFormData] = useState({
+        email: "",
+        senha: "",
+    });
 
   return (
     <TransactionsContainer>
