@@ -70,13 +70,6 @@ export default function TransactionsPage() {
                 ...formData,
                 valor: formattedValue
             };
-            const url = import.meta.env.VITE_API_URL + "/transactions";
-            const token = {
-            headers: {
-                Authorization: `Bearer ${userData.token}`,
-                id: userData.userId
-            }
-            };
 
             axios.put(import.meta.env.VITE_API_URL + `/editar-registro/`, {data: {id: id}}).then(res => {
                 console.log(res);
