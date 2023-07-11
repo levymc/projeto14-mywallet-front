@@ -6,6 +6,9 @@ const GlobalStyle = createGlobalStyle`
         font-style: normal;
         font-weight: 400;
     }
+    .pointer{
+        cursor:pointer;
+    }
     button {
         outline: none;
         border: none;

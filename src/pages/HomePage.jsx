@@ -24,7 +24,7 @@ export default function HomePage() {
 
                 const transactionsData = response.data.data;
                 const total = response.data.totalTransac[0].total.toFixed(2);
-                console.log(22222, total)
+                // console.log(22222, total)
                 setTransactions(transactionsData);
                 setTotalTransac(total)
             } catch (error) {
@@ -33,13 +33,22 @@ export default function HomePage() {
         };
         console.log(transactions)
         getTransactions();
-      }, []);
-      
+        }, []);
+
+        const handleQuit = async (e) => {
+            e.preventDefault()
+            try{
+                const deleted = await axios.delete('/sessao', {token: userData.token})
+            }catch(err){
+                console.log(err)
+            }
+        }
+        
     return (
         <HomeContainer>
         <Header>
             <h1 data-test="user-name">Olá, {userData.nome}</h1>
-            <BiExit data-test="logout" />
+            <BiExit className="pointer" data-test="logout" />
         </Header>
 
         <TransactionsContainer>
