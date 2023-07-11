@@ -119,6 +119,7 @@ export default function HomePage() {
                             onClick={() => {
                             deleteSpecificTransac(transaction._id);
                             }}
+                            data-test="registry-delete"
                         >
                             X
                         </h4>
