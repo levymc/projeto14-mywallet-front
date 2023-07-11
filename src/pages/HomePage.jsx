@@ -20,12 +20,11 @@ export default function HomePage() {
                         Authorization: `Bearer ${userData.token}`,
                         id: userData.userId
                     },
-                };
-        
-                const response = await axios.get(import.meta.env.VITE_API_URL + "/transactions", config);
-
-                const transactionsData = response.data.data;
-                const total = response.data.totalTransac[0].total.toFixed(2);
+                };        
+                const response = await axios.get(import.meta.env.VITE_API_URL + "/transactions", config)
+                console.log(response)
+                const transactionsData = response.data.length === 0 ? [] : response.data.data;
+                const total = response.data.length > 0 ? response.data.totalTransac[0].total.toFixed(2) : 0;
                 // console.log(22222, total)
                 setTransactions(transactionsData);
                 setTotalTransac(total)
@@ -122,15 +121,18 @@ const TransactionsContainer = styled.article`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: auto;
+    
     article {
         display: flex;
-        justify-content: space-between;   
+        justify-content: space-between;
         strong {
         font-weight: 700;
         text-transform: uppercase;
         }
     }
-`
+`;
+
 const ButtonsContainer = styled.section`
     margin-top: 15px;
     margin-bottom: 0;
