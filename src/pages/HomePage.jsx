@@ -33,7 +33,11 @@ export default function HomePage() {
                 });
         };
     
-    
+
+        const updateTransac = (tipo, id) => {
+            navigateTo(`/editar-registro/${tipo}/${id}`)
+        };
+
     
         const getTransactions = async () => {
             try {
@@ -105,8 +109,11 @@ export default function HomePage() {
                     <ListItemContainer key={transaction._id}>
                     <div>
                         <span>{transaction.data}</span>
-                        <strong data-test="registry-name">
-                        {transaction.descricao}
+                        <strong
+                        data-test="registry-name"
+                        onClick={() => {updateTransac(transaction.type, transaction._id)}}
+                        >
+                            {transaction.descricao}
                         </strong>
                     </div>
                     <Value
