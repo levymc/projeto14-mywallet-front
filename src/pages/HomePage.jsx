@@ -16,144 +16,146 @@ export default function HomePage() {
         }
     }, []);
 
-    const deleteSpecificTransac = (id) => {
-        const answ = confirm("Deseja deletar esta transação?");
-        if (answ)
-        axios
-            .delete(import.meta.env.VITE_API_URL + "/transactions", {
-            data: { id: id },
-            })
-            .then((res) => {
-            console.log(res.data.deletedCount);
-            getTransactions();
-            })
-            .catch((err) => {
-            console.log(err);
-            });
-    };
-
-    const handleUpdateTransac = (id) => {}
-
-    const getTransactions = async () => {
-        try {
-        const config = {
-            headers: {
-            Authorization: `Bearer ${userData.token}`,
-            id: userData.userId,
-            },
+    if (userData != null){
+        const deleteSpecificTransac = (id) => {
+            const answ = confirm("Deseja deletar esta transação?");
+            if (answ)
+            axios
+                .delete(import.meta.env.VITE_API_URL + "/transactions", {
+                data: { id: id },
+                })
+                .then((res) => {
+                console.log(res.data.deletedCount);
+                getTransactions();
+                })
+                .catch((err) => {
+                console.log(err);
+                });
         };
-        const response = await axios.get(
-            import.meta.env.VITE_API_URL + "/transactions",
-            config
-        );
-        console.log(response.data.data);
-        if (response.data.length === 0) {
-            transactionsData = [];
-            total = 0;
-        } else {
-            total =
-            response.data.totalTransac.length === 0
-                ? 0
-                : response.data.totalTransac[0].total.toFixed(2);
-            setTransactions(response.data.data.reverse());
-            console.log(total);
-            setTotalTransac(total);
-        }
-        } catch (error) {
-        console.error(error);
-        }
-    };
-
-    const handleQuit = async (e) => {
-        e.preventDefault();
-        try {
-        const deleted = await axios.delete(
-            import.meta.env.VITE_API_URL + "/sessao",
-            { data: { token: userData.token } }
-        );
-        sessionStorage.setItem("userData", null);
-        navigateTo("/");
-        } catch (err) {
-        console.log(err);
-        }
-    };
-
-    const [transactions, setTransactions] = useState([]);
-    const [totalTransac, setTotalTransac] = useState(0);
-    let transactionsData;
-
-    let total = 0;
-    useEffect(() => {
-        getTransactions();
-    }, []);
-
-    return (
-        <HomeContainer>
-        <Header>
-            <h1 data-test="user-name">Olá, {userData.nome}</h1>
-            <BiExit
-            onClick={handleQuit}
-            className="pointer"
-            data-test="logout"
-            />
-        </Header>
-
-        <TransactionsContainer>
-            <ul>
-            {transactions.map((transaction) => (
-                <ListItemContainer key={transaction._id}>
-                <div>
-                    <span>{transaction.data}</span>
-                    <strong data-test="registry-name">
-                    {transaction.descricao}
-                    </strong>
-                </div>
-                <Value
-                    data-test="registry-amount"
-                    color={transaction.type === "saida" ? "negativo" : "positivo"}
-                >
-                    <DivValue>
-                    {transaction.valor.replace(".", ",")}
-                    <h4
-                        onClick={() => {
-                        deleteSpecificTransac(transaction._id);
-                        }}
+    
+    
+    
+        const getTransactions = async () => {
+            try {
+            const config = {
+                headers: {
+                Authorization: `Bearer ${userData.token}`,
+                id: userData.userId,
+                },
+            };
+            const response = await axios.get(
+                import.meta.env.VITE_API_URL + "/transactions",
+                config
+            );
+            console.log(response.data.data);
+            if (response.data.length === 0) {
+                transactionsData = [];
+                total = 0;
+            } else {
+                total =
+                response.data.totalTransac.length === 0
+                    ? 0
+                    : response.data.totalTransac[0].total.toFixed(2);
+                setTransactions(response.data.data.reverse());
+                console.log(total);
+                setTotalTransac(total);
+            }
+            } catch (error) {
+            console.error(error);
+            }
+        };
+    
+        const handleQuit = async (e) => {
+            e.preventDefault();
+            try {
+            const deleted = await axios.delete(
+                import.meta.env.VITE_API_URL + "/sessao",
+                { data: { token: userData.token } }
+            );
+            sessionStorage.setItem("userData", null);
+            navigateTo("/");
+            } catch (err) {
+            console.log(err);
+            }
+        };
+    
+        const [transactions, setTransactions] = useState([]);
+        const [totalTransac, setTotalTransac] = useState(0);
+        let transactionsData;
+    
+        let total = 0;
+        useEffect(() => {
+            getTransactions();
+        }, []);
+    
+        return (
+            <HomeContainer>
+            <Header>
+                <h1 data-test="user-name">Olá, {userData.nome}</h1>
+                <BiExit
+                onClick={handleQuit}
+                className="pointer"
+                data-test="logout"
+                />
+            </Header>
+    
+            <TransactionsContainer>
+                <ul>
+                {transactions.map((transaction) => (
+                    <ListItemContainer key={transaction._id}>
+                    <div>
+                        <span>{transaction.data}</span>
+                        <strong data-test="registry-name">
+                        {transaction.descricao}
+                        </strong>
+                    </div>
+                    <Value
+                        data-test="registry-amount"
+                        color={transaction.type === "saida" ? "negativo" : "positivo"}
                     >
-                        X
-                    </h4>
-                    </DivValue>
+                        <DivValue>
+                        {transaction.valor.replace(".", ",")}
+                        <h4
+                            onClick={() => {
+                            deleteSpecificTransac(transaction._id);
+                            }}
+                        >
+                            X
+                        </h4>
+                        </DivValue>
+                    </Value>
+                    </ListItemContainer>
+                ))}
+                </ul>
+    
+                <article>
+                <strong>Saldo</strong>
+                <Value
+                    data-test="total-amount"
+                    color={totalTransac >= 0 ? "positivo" : "negativo"}
+                >
+                    {totalTransac > 0 ? totalTransac.replace(".", ",") : totalTransac}
                 </Value>
-                </ListItemContainer>
-            ))}
-            </ul>
-
-            <article>
-            <strong>Saldo</strong>
-            <Value
-                data-test="total-amount"
-                color={totalTransac >= 0 ? "positivo" : "negativo"}
-            >
-                {totalTransac > 0 ? totalTransac.replace(".", ",") : totalTransac}
-            </Value>
-            </article>
-        </TransactionsContainer>
-
-        <ButtonsContainer>
-            <Link to="/nova-transacao/entrada">
-            <button data-test="new-income">
-                <AiOutlinePlusCircle />
-                <p>Nova <br /> entrada</p>
-            </button>
-            </Link>
-            <Link to="/nova-transacao/saida">
-            <button data-test="new-expense">
-                <AiOutlineMinusCircle />
-                <p>Nova <br /> saída</p>
-            </button>
-            </Link>
-        </ButtonsContainer>
-        </HomeContainer>
-    );
+                </article>
+            </TransactionsContainer>
+    
+            <ButtonsContainer>
+                <Link to="/nova-transacao/entrada">
+                <button data-test="new-income">
+                    <AiOutlinePlusCircle />
+                    <p>Nova <br /> entrada</p>
+                </button>
+                </Link>
+                <Link to="/nova-transacao/saida">
+                <button data-test="new-expense">
+                    <AiOutlineMinusCircle />
+                    <p>Nova <br /> saída</p>
+                </button>
+                </Link>
+            </ButtonsContainer>
+            </HomeContainer>
+        );
+    }
 }
 
 const DivValue = styled.div`
