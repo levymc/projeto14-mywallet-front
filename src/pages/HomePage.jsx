@@ -20,7 +20,7 @@ export default function HomePage() {
                     },
                 };
         
-                const response = await axios.get(import.meta.env.VITE_API_URL_DEV + "/transactions", config);
+                const response = await axios.get(import.meta.env.VITE_API_URL + "/transactions", config);
 
                 const transactionsData = response.data.data;
                 const total = response.data.totalTransac[0].total.toFixed(2);
