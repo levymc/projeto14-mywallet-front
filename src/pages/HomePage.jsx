@@ -6,11 +6,23 @@ import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+  
+
+
 export default function HomePage() {
-    const [transactions, setTransactions] = useState([]);
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    const [totalTransac, setTotalTransac] = useState(0);
     const navigateTo = useNavigate();
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
+
+    useEffect(() => {
+        if (userData === null) {
+            navigateTo('/');
+        }
+    }, []);
+
+
+    if (userData != null){
+        const [transactions, setTransactions] = useState([]);
+    const [totalTransac, setTotalTransac] = useState(0);
     let transactionsData
     let sortedTransactions
     let total = 0
@@ -108,6 +120,8 @@ export default function HomePage() {
         </ButtonsContainer>
         </HomeContainer>
     );
+    }
+    
 }
 
 

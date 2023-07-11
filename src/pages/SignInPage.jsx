@@ -24,7 +24,7 @@ export default function SignInPage() {
             senha: senha,
             })
             .then((res) => {
-                localStorage.setItem('userData', JSON.stringify(res.data));
+                sessionStorage.setItem('userData', JSON.stringify(res.data));
             navigateTo('/home');
             });
         } catch (error) {
