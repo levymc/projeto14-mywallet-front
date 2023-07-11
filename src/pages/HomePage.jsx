@@ -44,12 +44,8 @@ export default function HomePage() {
                     transactionsData =  []
                     total = 0
                 }else{
-                    transactionsData = response.data.data
-                    sortedTransactions = transactionsData.sort((a, b) => {return new Date(b.data) - new Date(a.data);});
-                    console.log(response.data.length)
-                    total = response.data.totalTransac.length === 0 ? 0 : response.data.totalTransac[0].total.toFixed(2)
-                    console.log(22222, total)
-                    setTransactions(sortedTransactions);
+                    total = response.data.totalTransac.length === 0 ? 0 : response.data.totalTransac[0].total.toFixed(2).replace('.', ',')
+                    setTransactions(response.data.data.reverse());
                     setTotalTransac(total)
                 }
                 
