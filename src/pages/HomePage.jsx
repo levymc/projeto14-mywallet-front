@@ -8,6 +8,8 @@ import axios from "axios";
 export default function HomePage() {
     const [transactions, setTransactions] = useState([]);
     const userData = JSON.parse(localStorage.getItem("userData"));
+    const [totalTransac, setTotalTransac] = useState(0);
+
     useEffect(() => {
         const getTransactions = async () => {
             try {
@@ -19,13 +21,17 @@ export default function HomePage() {
                 };
         
                 const response = await axios.get(import.meta.env.VITE_API_URL_DEV + "/transactions", config);
-                const transactionsData = response.data;
+
+                const transactionsData = response.data.data;
+                const total = response.data.totalTransac[0].total.toFixed(2);
+                console.log(22222, total)
                 setTransactions(transactionsData);
+                setTotalTransac(total)
             } catch (error) {
                 console.error(error);
             }
         };
-      
+        console.log(transactions)
         getTransactions();
       }, []);
       
@@ -56,8 +62,8 @@ export default function HomePage() {
 
             <article>
             <strong>Saldo</strong>
-            <Value data-test="total-amount" color={"positivo"}>
-                2880,00
+            <Value data-test="total-amount" color={ totalTransac >= 0 ? "positivo" : "negativo" }>
+                R$ {totalTransac}
             </Value>
             </article>
         </TransactionsContainer>
