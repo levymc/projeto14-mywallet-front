@@ -7,231 +7,236 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function HomePage() {
-  const navigateTo = useNavigate();
-  const userData = JSON.parse(sessionStorage.getItem("userData"));
+    const navigateTo = useNavigate();
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
 
-  useEffect(() => {
-    if (userData === null) {
-      navigateTo("/");
-    }
-  }, []);
+    useEffect(() => {
+        if (userData === null) {
+        navigateTo("/");
+        }
+    }, []);
 
-  const deleteSpecificTransac = (id) => {
-    const answ = confirm("Deseja deletar esta transação?");
-    if (answ)
-      axios
-        .delete(import.meta.env.VITE_API_URL + "/transactions", {
-          data: { id: id },
-        })
-        .then((res) => {
-          console.log(res.data.deletedCount);
-          getTransactions();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  };
+    const deleteSpecificTransac = (id) => {
+        const answ = confirm("Deseja deletar esta transação?");
+        if (answ)
+        axios
+            .delete(import.meta.env.VITE_API_URL + "/transactions", {
+            data: { id: id },
+            })
+            .then((res) => {
+            console.log(res.data.deletedCount);
+            getTransactions();
+            })
+            .catch((err) => {
+            console.log(err);
+            });
+    };
 
-  const getTransactions = async () => {
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userData.token}`,
-          id: userData.userId,
-        },
-      };
-      const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/transactions",
-        config
-      );
-      console.log(response.data.data);
-      if (response.data.length === 0) {
-        transactionsData = [];
-        total = 0;
-      } else {
-        total =
-          response.data.totalTransac.length === 0
-            ? 0
-            : response.data.totalTransac[0].total.toFixed(2);
-        setTransactions(response.data.data.reverse());
-        console.log(total);
-        setTotalTransac(total);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const handleUpdateTransac = (id) => {}
 
-  const handleQuit = async (e) => {
-    e.preventDefault();
-    try {
-      const deleted = await axios.delete(
-        import.meta.env.VITE_API_URL + "/sessao",
-        { data: { token: userData.token } }
-      );
-      sessionStorage.setItem("userData", null);
-      navigateTo("/");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    const getTransactions = async () => {
+        try {
+        const config = {
+            headers: {
+            Authorization: `Bearer ${userData.token}`,
+            id: userData.userId,
+            },
+        };
+        const response = await axios.get(
+            import.meta.env.VITE_API_URL + "/transactions",
+            config
+        );
+        console.log(response.data.data);
+        if (response.data.length === 0) {
+            transactionsData = [];
+            total = 0;
+        } else {
+            total =
+            response.data.totalTransac.length === 0
+                ? 0
+                : response.data.totalTransac[0].total.toFixed(2);
+            setTransactions(response.data.data.reverse());
+            console.log(total);
+            setTotalTransac(total);
+        }
+        } catch (error) {
+        console.error(error);
+        }
+    };
 
-  const [transactions, setTransactions] = useState([]);
-  const [totalTransac, setTotalTransac] = useState(0);
-  let transactionsData;
+    const handleQuit = async (e) => {
+        e.preventDefault();
+        try {
+        const deleted = await axios.delete(
+            import.meta.env.VITE_API_URL + "/sessao",
+            { data: { token: userData.token } }
+        );
+        sessionStorage.setItem("userData", null);
+        navigateTo("/");
+        } catch (err) {
+        console.log(err);
+        }
+    };
 
-  let total = 0;
-  useEffect(() => {
-    getTransactions();
-  }, []);
+    const [transactions, setTransactions] = useState([]);
+    const [totalTransac, setTotalTransac] = useState(0);
+    let transactionsData;
 
-  return (
-    <HomeContainer>
-      <Header>
-        <h1 data-test="user-name">Olá, {userData.nome}</h1>
-        <BiExit
-          onClick={handleQuit}
-          className="pointer"
-          data-test="logout"
-        />
-      </Header>
+    let total = 0;
+    useEffect(() => {
+        getTransactions();
+    }, []);
 
-      <TransactionsContainer>
-        <ul>
-          {transactions.map((transaction) => (
-            <ListItemContainer key={transaction._id}>
-              <div>
-                <span>{transaction.data}</span>
-                <strong data-test="registry-name">
-                  {transaction.descricao}
-                </strong>
-              </div>
-              <Value
-                data-test="registry-amount"
-                color={transaction.type === "saida" ? "negativo" : "positivo"}
-              >
-                <DivValue>
-                  {transaction.valor.replace(".", ",")}
-                  <h4
-                    onClick={() => {
-                      deleteSpecificTransac(transaction._id);
-                    }}
-                  >
-                    X
-                  </h4>
-                </DivValue>
-              </Value>
-            </ListItemContainer>
-          ))}
-        </ul>
+    return (
+        <HomeContainer>
+        <Header>
+            <h1 data-test="user-name">Olá, {userData.nome}</h1>
+            <BiExit
+            onClick={handleQuit}
+            className="pointer"
+            data-test="logout"
+            />
+        </Header>
 
-        <article>
-          <strong>Saldo</strong>
-          <Value
-            data-test="total-amount"
-            color={totalTransac >= 0 ? "positivo" : "negativo"}
-          >
-            R$ {totalTransac > 0 ? totalTransac.replace(".", ",") : totalTransac}
-          </Value>
-        </article>
-      </TransactionsContainer>
+        <TransactionsContainer>
+            <ul>
+            {transactions.map((transaction) => (
+                <ListItemContainer key={transaction._id}>
+                <div>
+                    <span>{transaction.data}</span>
+                    <strong data-test="registry-name">
+                    {transaction.descricao}
+                    </strong>
+                </div>
+                <Value
+                    data-test="registry-amount"
+                    color={transaction.type === "saida" ? "negativo" : "positivo"}
+                >
+                    <DivValue>
+                    {transaction.valor.replace(".", ",")}
+                    <h4
+                        onClick={() => {
+                        deleteSpecificTransac(transaction._id);
+                        }}
+                    >
+                        X
+                    </h4>
+                    </DivValue>
+                </Value>
+                </ListItemContainer>
+            ))}
+            </ul>
 
-      <ButtonsContainer>
-        <Link to="/nova-transacao/entrada">
-          <button data-test="new-income">
-            <AiOutlinePlusCircle />
-            <p>Nova <br /> entrada</p>
-          </button>
-        </Link>
-        <Link to="/nova-transacao/saida">
-          <button data-test="new-expense">
-            <AiOutlineMinusCircle />
-            <p>Nova <br /> saída</p>
-          </button>
-        </Link>
-      </ButtonsContainer>
-    </HomeContainer>
-  );
+            <article>
+            <strong>Saldo</strong>
+            <Value
+                data-test="total-amount"
+                color={totalTransac >= 0 ? "positivo" : "negativo"}
+            >
+                {totalTransac > 0 ? totalTransac.replace(".", ",") : totalTransac}
+            </Value>
+            </article>
+        </TransactionsContainer>
+
+        <ButtonsContainer>
+            <Link to="/nova-transacao/entrada">
+            <button data-test="new-income">
+                <AiOutlinePlusCircle />
+                <p>Nova <br /> entrada</p>
+            </button>
+            </Link>
+            <Link to="/nova-transacao/saida">
+            <button data-test="new-expense">
+                <AiOutlineMinusCircle />
+                <p>Nova <br /> saída</p>
+            </button>
+            </Link>
+        </ButtonsContainer>
+        </HomeContainer>
+    );
 }
 
 const DivValue = styled.div`
-  display: flex;
-  gap: 0.75em;
-  h4 {
-    color: grey;
-    cursor: pointer;
-    font-size: 13px;
-  }
+    display: flex;
+    gap: 0.75em;
+    h4 {
+        color: grey;
+        cursor: pointer;
+        font-size: 13px;
+    }
 `;
 
 const HomeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 50px);
 `;
 const Header = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2px 5px 2px;
-  margin-bottom: 15px;
-  font-size: 26px;
-  color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2px 5px 2px;
+    margin-bottom: 15px;
+    font-size: 26px;
+    color: white;
 `;
 const TransactionsContainer = styled.article`
-  flex-grow: 1;
-  background-color: #fff;
-  color: #000;
-  border-radius: 5px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow-y: auto;
-
-  article {
-    display: flex;
-    justify-content: space-between;
-    strong {
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-  }
-`;
-
-const ButtonsContainer = styled.section`
-  margin-top: 15px;
-  margin-bottom: 0;
-  display: flex;
-  gap: 15px;
-
-  Link button {
-    width: 50%;
-    height: 115px;
-    font-size: 22px;
-    text-align: left;
+    flex-grow: 1;
+    background-color: #fff;
+    color: #000;
+    border-radius: 5px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    p {
-      font-size: 18px;
+    overflow-y: auto;
+
+    article {
+        display: flex;
+        justify-content: space-between;
+        strong {
+        font-weight: 700;
+        text-transform: uppercase;
+        }
     }
-  }
+`;
+
+const ButtonsContainer = styled.section`
+    margin-top: 15px;
+    margin-bottom: 0;
+    display: flex;
+    gap: 15px;
+
+    Link button {
+        width: 50%;
+        height: 115px;
+        font-size: 22px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        p {
+        font-size: 18px;
+        }
+    }
 `;
 const Value = styled.div`
-  font-size: 16px;
-  text-align: right;
-  color: ${(props) => (props.color === "positivo" ? "green" : "red")};
+    font-size: 16px;
+    text-align: right;
+    color: ${(props) => (props.color === "positivo" ? "green" : "red")};
 `;
 const ListItemContainer = styled.li`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  color: #000000;
-  margin-right: 10px;
-  div span {
-    color: #c6c6c6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    color: #000000;
     margin-right: 10px;
-  }
+    div span {
+        color: #c6c6c6;
+        margin-right: 10px;
+    }
+    strong{
+        cursor: pointer;
+    }
 `;
