@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import {  useNavigate } from "react-router-dom";
 import { BiExit } from "react-icons/bi";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -9,6 +10,7 @@ export default function HomePage() {
     const [transactions, setTransactions] = useState([]);
     const userData = JSON.parse(localStorage.getItem("userData"));
     const [totalTransac, setTotalTransac] = useState(0);
+    const navigateTo = useNavigate();
 
     useEffect(() => {
         const getTransactions = async () => {
@@ -31,24 +33,25 @@ export default function HomePage() {
                 console.error(error);
             }
         };
-        console.log(transactions)
         getTransactions();
-        }, []);
+    }, []);
 
-        const handleQuit = async (e) => {
-            e.preventDefault()
-            try{
-                const deleted = await axios.delete('/sessao', {token: userData.token})
-            }catch(err){
-                console.log(err)
-            }
+    const handleQuit = async (e) => {
+        e.preventDefault()
+        try{
+            const deleted = await axios.delete(import.meta.env.VITE_API_URL + '/sessao', { data: { token: userData.token } })
+            console.log(deleted.data.deletedCount)
+            if (deleted.data.deletedCount > 0) return navigateTo("/")
+        }catch(err){
+            console.log(err)
         }
+    }
         
     return (
         <HomeContainer>
         <Header>
             <h1 data-test="user-name">Olá, {userData.nome}</h1>
-            <BiExit className="pointer" data-test="logout" />
+            <BiExit onClick={handleQuit} className="pointer" data-test="logout" />
         </Header>
 
         <TransactionsContainer>
