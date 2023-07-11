@@ -15,6 +15,7 @@ export default function HomePage() {
     useEffect(() => {
         const getTransactions = async () => {
             try {
+                
                 const config = {
                     headers: {
                         Authorization: `Bearer ${userData.token}`,
@@ -23,10 +24,13 @@ export default function HomePage() {
                 };        
                 const response = await axios.get(import.meta.env.VITE_API_URL + "/transactions", config)
                 console.log(response)
+
                 const transactionsData = response.data.length === 0 ? [] : response.data.data;
+                const sortedTransactions = transactionsData.sort((a, b) => {return new Date(b.data) - new Date(a.data);});
+
                 const total = response.data.length > 0 ? response.data.totalTransac[0].total.toFixed(2) : 0;
                 // console.log(22222, total)
-                setTransactions(transactionsData);
+                setTransactions(sortedTransactions);
                 setTotalTransac(total)
             } catch (error) {
                 console.error(error);
