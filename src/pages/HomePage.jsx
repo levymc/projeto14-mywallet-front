@@ -64,8 +64,7 @@ export default function HomePage() {
         e.preventDefault()
         try{
             const deleted = await axios.delete(import.meta.env.VITE_API_URL + '/sessao', { data: { token: userData.token } })
-            console.log(deleted.data.deletedCount)
-            if (deleted.data.deletedCount > 0) return navigateTo("/")
+            navigateTo("/")
         }catch(err){
             console.log(err)
         }
