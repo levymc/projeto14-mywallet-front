@@ -64,6 +64,7 @@ export default function HomePage() {
         e.preventDefault()
         try{
             const deleted = await axios.delete(import.meta.env.VITE_API_URL + '/sessao', { data: { token: userData.token } })
+            sessionStorage.setItem("userData", null);
             navigateTo("/")
         }catch(err){
             console.log(err)
