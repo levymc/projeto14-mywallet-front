@@ -106,7 +106,7 @@ export default function TransactionsPage() {
                         onChange={handleChange}
                     />
                     <button data-test="registry-save" type="submit">
-                    Salvar TRANSAÇÃO
+                        Atualizar {tipo}
                     </button>
                 </form>
             </TransactionsContainer>
