@@ -24,7 +24,7 @@ export default function HomePage() {
         const [transactions, setTransactions] = useState([]);
     const [totalTransac, setTotalTransac] = useState(0);
     let transactionsData
-    let sortedTransactions
+
     let total = 0
     useEffect(() => {
         const getTransactions = async () => {
@@ -44,8 +44,9 @@ export default function HomePage() {
                     transactionsData =  []
                     total = 0
                 }else{
-                    total = response.data.totalTransac.length === 0 ? 0 : response.data.totalTransac[0].total.toFixed(2).replace('.', ',')
+                    total = response.data.totalTransac.length === 0 ? 0 : response.data.totalTransac[0].total.toFixed(2)
                     setTransactions(response.data.data.reverse());
+                    console.log(total)
                     setTotalTransac(total)
                 }
                 
@@ -86,7 +87,7 @@ export default function HomePage() {
                     data-test="registry-amount"
                     color={transaction.type === "saida" ? "negativo" : "positivo"}
                 >
-                    {transaction.valor}
+                    {transaction.valor.replace('.', ',')}
                 </Value>
                 </ListItemContainer>
             ))}
@@ -95,7 +96,7 @@ export default function HomePage() {
             <article>
             <strong>Saldo</strong>
             <Value data-test="total-amount" color={ totalTransac >= 0 ? "positivo" : "negativo" }>
-                R$ {totalTransac}
+                R$ {totalTransac > 0 ? totalTransac.replace('.', ',') : totalTransac}
             </Value>
             </article>
         </TransactionsContainer>
